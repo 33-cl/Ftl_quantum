@@ -12,12 +12,19 @@ circuit.measure_all()
 print(circuit.draw())
 
 # Launching simulation 500 times
+shots = 500
 simulator = AerSimulator()
-result = simulator.run(circuit, shots=500).result()
+result = simulator.run(circuit, shots=shots).result()
+
+# Convert counts to probabilities
 counts = result.get_counts()
+probabilities = {}
+for state, count in counts.items():
+    probabilities[state] = count / shots
 
 # Display the results in a plot_histogram
-plot_histogram(counts)
-plt.savefig("superposition.png")
+plot_histogram(probabilities)
+plt.ylabel("Probabilities")
+plt.savefig("histogram.png")
 plt.close()
 
